@@ -1,0 +1,39 @@
+name: SANVRI Weekly Campaign Generator
+
+on:
+  schedule:
+      # Every Sunday at 10:00 CET (09:00 UTC in winter, 08:00 UTC in summer)
+          # Note: GitHub Actions uses UTC, so we use 09:00 UTC
+              - cron: '0 9 * * 0'
+
+                  # Allow manual trigger for testing
+                    workflow_dispatch:
+
+                    jobs:
+                      generate-campaigns:
+                          runs-on: ubuntu-latest
+
+                                  steps:
+                                        - name: Checkout repository
+                                                uses: actions/checkout@v4
+
+                                                            - name: Set up Python
+                                                                    uses: actions/setup-python@v4
+                                                                            with:
+                                                                                      python-version: '3.11'
+
+                                                                                                  - name: Install dependencies
+                                                                                                          run: |
+                                                                                                                    python -m pip install --upgrade pip
+                                                                                                                              pip install requests
+                                                                                                                                    
+                                                                                                                                          - name: Run SANVRI Campaign Generator
+                                                                                                                                                  env:
+                                                                                                                                                            KLAVIYO_API_KEY: ${{ secrets.KLAVIYO_API_KEY }}
+                                                                                                                                                                    run: |
+                                                                                                                                                                              python sanvri_campaigns.py
+                                                                                                                                                                                    
+                                                                                                                                                                                          - name: Log execution
+                                                                                                                                                                                                  run: |
+                                                                                                                                                                                                            echo "✅ Campaign generation completed at $(date)"
+                                                                                                                                                                                                                      echo "📊 Check Klaviyo dashboard for draft campaigns"
