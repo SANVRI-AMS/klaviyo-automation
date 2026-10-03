@@ -2,12 +2,9 @@ name: SANVRI Weekly Campaign Generator
 
 on:
   schedule:
-      # Every Sunday at 10:00 CET (09:00 UTC in winter, 08:00 UTC in summer)
-          # Note: GitHub Actions uses UTC, so we use 09:00 UTC
               - cron: '0 9 * * 0'
 
-                  # Allow manual trigger for testing
-                    workflow_dispatch:
+                      workflow_dispatch:
 
                     jobs:
                       generate-campaigns:
